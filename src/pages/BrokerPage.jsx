@@ -95,7 +95,10 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(
+      array,
+      (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -110,7 +113,6 @@ export default function BrokerPage() {
 
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(7);
@@ -133,7 +135,14 @@ export default function BrokerPage() {
 
   const handleOpen = () => {
     setAction("");
-    setFormBroker({ id: "", name: "", email: "", password: "", division: "", rol: "broker" });
+    setFormBroker({
+      id: "",
+      name: "",
+      email: "",
+      password: "",
+      division: "",
+      rol: "broker",
+    });
 
     setOpen(true);
   };
@@ -154,33 +163,6 @@ export default function BrokerPage() {
 
   if (isError) return <h1>Error al cargar los datos.</h1>;
   if (isLoading) return <h4>Cargando...</h4>;
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = data.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  // const handleClick = (event, name) => {
-  //   const selectedIndex = selected.indexOf(name);
-  //   let newSelected = [];
-  //   if (selectedIndex === -1) {
-  //     newSelected = newSelected.concat(selected, name);
-  //   } else if (selectedIndex === 0) {
-  //     newSelected = newSelected.concat(selected.slice(1));
-  //   } else if (selectedIndex === selected.length - 1) {
-  //     newSelected = newSelected.concat(selected.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelected = newSelected.concat(
-  //       selected.slice(0, selectedIndex),
-  //       selected.slice(selectedIndex + 1)
-  //     );
-  //   }
-  //   setSelected(newSelected);
-  // };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -209,12 +191,23 @@ export default function BrokerPage() {
       if (updateError) setOpenError(true);
     }
     if (action !== "Editar") {
-      await createUserWithEmailAndPassword(auth, formBroker.email, formBroker.password);
+      await createUserWithEmailAndPassword(
+        auth,
+        formBroker.email,
+        formBroker.password
+      );
       await createBroker(formBroker).unwrap();
       if (!createSuccess) setOpenSuccess(true);
       if (createError) setOpenError(true);
     }
-    setFormBroker({ id: "", name: "", email: "", password: "", division: "", rol: "broker" });
+    setFormBroker({
+      id: "",
+      name: "",
+      email: "",
+      password: "",
+      division: "",
+      rol: "broker",
+    });
     setSelect("");
   };
 
@@ -223,9 +216,14 @@ export default function BrokerPage() {
     setFormBroker({ ...formBroker, [event.target.name]: event.target.value });
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-  const filteredUsers = applySortFilter(data, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(
+    data,
+    getComparator(order, orderBy),
+    filterName
+  );
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
@@ -236,18 +234,26 @@ export default function BrokerPage() {
       </Helmet>
 
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+        >
           <Typography variant="h4" gutterBottom>
             Brokers
           </Typography>
-          <Button variant="contained" startIcon={<AddIcon />} onClick={() => handleOpen()}>
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => handleOpen()}
+          >
             Nuevo broker
           </Button>
         </Stack>
 
         <Card>
           <UserListToolbar
-            //numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
           />
@@ -260,35 +266,25 @@ export default function BrokerPage() {
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
                   rowCount={data.length}
-                  //numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       const { id, name, rol, avatar, division, email } = row;
-                      const selectedUser = selected.indexOf(name) !== -1;
 
                       return (
-                        <TableRow
-                          hover
-                          key={id}
-                          tabIndex={-1}
-                          rol="checkbox"
-                          selected={selectedUser}
-                        >
-                          <TableCell padding="checkbox">
-                            {/* <Checkbox
-                              checked={selectedUser}
-                              onChange={(event) => handleClick(event, name)}
-                            /> */}
-                          </TableCell>
+                        <TableRow hover key={id} tabIndex={-1} rol="checkbox">
+                          <TableCell padding="checkbox"></TableCell>
                           <TableCell align="left">{id}</TableCell>
 
                           <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing={2}
+                            >
                               <Avatar alt={name} src={avatar} />
                               <Typography variant="subtitle2" noWrap>
                                 {name}
@@ -314,15 +310,32 @@ export default function BrokerPage() {
                           </TableCell>
 
                           <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <MenuItem onClick={() => handleEditor(id, name, division, email)}>
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing={2}
+                            >
+                              <MenuItem
+                                onClick={() =>
+                                  handleEditor(id, name, division, email)
+                                }
+                              >
                                 <EditIcon />
                                 Editar
                               </MenuItem>
 
                               <MenuItem
                                 sx={{ color: "error.main" }}
-                                onClick={() => deleteBroker(id, name, rol, avatar, division, email)}
+                                onClick={() =>
+                                  deleteBroker(
+                                    id,
+                                    name,
+                                    rol,
+                                    avatar,
+                                    division,
+                                    email
+                                  )
+                                }
                               >
                                 <DeleteForeverIcon />
                                 Borrar
@@ -355,7 +368,8 @@ export default function BrokerPage() {
                           <Typography variant="body2">
                             Ningun resultado para la busqueda &nbsp;
                             <strong>&quot;{filterName}&quot;</strong>.
-                            <br /> Intente verificar errores tipográficos o usar palabras completas
+                            <br /> Intente verificar errores tipográficos o usar
+                            palabras completas
                           </Typography>
                         </Paper>
                       </TableCell>
@@ -434,7 +448,10 @@ export default function BrokerPage() {
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                            edge="end"
+                          >
                             <VisibilityOffIcon />
                           </IconButton>
                         </InputAdornment>
@@ -473,7 +490,9 @@ export default function BrokerPage() {
                     autoHideDuration={3000}
                     onClose={() => setOpenSuccess(false)}
                   >
-                    <Alert severity="success">Broker Creado correctamente</Alert>
+                    <Alert severity="success">
+                      Broker Creado correctamente
+                    </Alert>
                   </Snackbar>
                   <Snackbar
                     open={openError}
@@ -482,7 +501,11 @@ export default function BrokerPage() {
                   >
                     <Alert severity="error">Error al crear nuevo broker</Alert>
                   </Snackbar>
-                  <Button variant="contained" onClick={handleClose} color="error">
+                  <Button
+                    variant="contained"
+                    onClick={handleClose}
+                    color="error"
+                  >
                     Cerrar
                   </Button>
                   <Button variant="contained" type="submit" sx={{ ml: 1 }}>

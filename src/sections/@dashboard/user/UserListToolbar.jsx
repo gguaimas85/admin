@@ -3,15 +3,13 @@ import PropTypes from "prop-types";
 import { styled, alpha } from "@mui/material/styles";
 import {
   Toolbar,
-  Tooltip,
-  IconButton,
+  //Tooltip,
+  //IconButton,
   Typography,
   OutlinedInput,
   InputAdornment,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import FilterListIcon from "@mui/icons-material/FilterList";
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled(Toolbar)(({ theme }) => ({
@@ -75,20 +73,6 @@ export default function UserListToolbar({
             </InputAdornment>
           }
         />
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteForeverIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
       )}
     </StyledRoot>
   );
