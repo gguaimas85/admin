@@ -121,6 +121,7 @@ export default function BrokerPage() {
   const [action, setAction] = useState("");
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openError, setOpenError] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [formBroker, setFormBroker] = useState({
     id: "",
@@ -149,7 +150,7 @@ export default function BrokerPage() {
 
   const handleEditor = (id, name, division, email) => {
     setFormBroker({ id, name, division, email });
-    console.log("formBroker", formBroker);
+
     setAction("Editar");
     setOpen(true);
   };
@@ -189,6 +190,7 @@ export default function BrokerPage() {
       await updateBroker(formBroker).unwrap();
       if (!updateSuccess) setOpenSuccess(true);
       if (updateError) setOpenError(true);
+      setSuccessMessage("Borker Modificado correctamente");
     }
     if (action !== "Editar") {
       await createUserWithEmailAndPassword(
@@ -199,6 +201,7 @@ export default function BrokerPage() {
       await createBroker(formBroker).unwrap();
       if (!createSuccess) setOpenSuccess(true);
       if (createError) setOpenError(true);
+      setSuccessMessage("Borker Creado correctamente");
     }
     setFormBroker({
       id: "",
@@ -326,16 +329,7 @@ export default function BrokerPage() {
 
                               <MenuItem
                                 sx={{ color: "error.main" }}
-                                onClick={() =>
-                                  deleteBroker(
-                                    id,
-                                    name,
-                                    rol,
-                                    avatar,
-                                    division,
-                                    email
-                                  )
-                                }
+                                onClick={() => deleteBroker(id)}
                               >
                                 <DeleteForeverIcon />
                                 Borrar
@@ -490,9 +484,7 @@ export default function BrokerPage() {
                     autoHideDuration={3000}
                     onClose={() => setOpenSuccess(false)}
                   >
-                    <Alert severity="success">
-                      Broker Creado correctamente
-                    </Alert>
+                    <Alert severity="success">{successMessage}</Alert>
                   </Snackbar>
                   <Snackbar
                     open={openError}

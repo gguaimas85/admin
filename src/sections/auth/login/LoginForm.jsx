@@ -41,8 +41,8 @@ export default function LoginForm() {
     e.preventDefault();
 
     try {
-      await signInWithEmailAndPassword(auth, login.email, login.password);
-      console.log("Todo ok");
+      const result = await signInWithEmailAndPassword(auth, login.email, login.password);
+      console.log(result);
     } catch (error) {
       console.log(error);
     }

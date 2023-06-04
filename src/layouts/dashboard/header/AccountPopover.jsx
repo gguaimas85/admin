@@ -36,7 +36,6 @@ export default function AccountPopover() {
   const logOut = async () => {
     try {
       await signOut(auth);
-      console.log("Salimos bien");
     } catch (error) {
       console.log(error);
     }
@@ -99,7 +98,12 @@ export default function AccountPopover() {
         <MenuItem onClick={handleClose} sx={{ m: 1 }}>
           <Link
             to="/"
-            style={{ textDecoration: "none", display: "flex", direction: "row", color: "black" }}
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              direction: "row",
+              color: "black",
+            }}
             onClick={logOut}
           >
             <LogoutIcon />
