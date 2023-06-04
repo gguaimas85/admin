@@ -41,8 +41,7 @@ export default function LoginForm() {
     e.preventDefault();
 
     try {
-      const result = await signInWithEmailAndPassword(auth, login.email, login.password);
-      console.log(result);
+      await signInWithEmailAndPassword(auth, login.email, login.password);
     } catch (error) {
       console.log(error);
     }
@@ -50,9 +49,11 @@ export default function LoginForm() {
     if (login.email === adminEmail && login.password === adminPassword)
       navigate("/dashboard", { replace: true });
 
-    if (login.email.length < 1 || login.password.length < 1) return setEmptyData(true);
+    if (login.email.length < 1 || login.password.length < 1)
+      return setEmptyData(true);
 
-    if (login.email !== adminEmail && login.password !== adminPassword) return setOpenError(true);
+    if (login.email !== adminEmail && login.password !== adminPassword)
+      return setOpenError(true);
   };
 
   return (
@@ -68,7 +69,10 @@ export default function LoginForm() {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
+                >
                   <VisibilityOffIcon />
                 </IconButton>
               </InputAdornment>
