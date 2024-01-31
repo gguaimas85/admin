@@ -16,9 +16,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import accountAdmin from "../../../_mock/account";
 //React
 import { Link } from "react-router-dom";
-//firebase
-import { auth } from "../../../firebase/firebase";
-import { signOut } from "firebase/auth";
+
 
 // ----------------------------------------------------------------------
 
@@ -33,13 +31,6 @@ export default function AccountPopover() {
     setOpen(null);
   };
 
-  const logOut = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <>
@@ -104,7 +95,7 @@ export default function AccountPopover() {
               direction: "row",
               color: "black",
             }}
-            onClick={logOut}
+
           >
             <LogoutIcon />
             <Typography>Cerrar Sesion</Typography>

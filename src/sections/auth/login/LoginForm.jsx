@@ -13,9 +13,6 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-//firebase
-import { auth } from "../../../firebase/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 
 // ----------------------------------------------------------------------
 
@@ -40,11 +37,7 @@ export default function LoginForm() {
   const handleClick = async (e) => {
     e.preventDefault();
 
-    try {
-      await signInWithEmailAndPassword(auth, login.email, login.password);
-    } catch (error) {
-      console.log(error);
-    }
+
 
     if (login.email === adminEmail && login.password === adminPassword)
       navigate("/dashboard", { replace: true });

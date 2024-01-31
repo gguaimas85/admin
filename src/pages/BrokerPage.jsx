@@ -45,9 +45,7 @@ import {
   useGetBrokersQuery,
   useUpdateBrokerMutation,
 } from "../reduxTolkit/apiSlice";
-//firebase
-import { auth } from "../firebase/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -193,11 +191,7 @@ export default function BrokerPage() {
       setSuccessMessage("Borker Modificado correctamente");
     }
     if (action !== "Editar") {
-      await createUserWithEmailAndPassword(
-        auth,
-        formBroker.email,
-        formBroker.password
-      );
+
       await createBroker(formBroker).unwrap();
       if (!createSuccess) setOpenSuccess(true);
       if (createError) setOpenError(true);
